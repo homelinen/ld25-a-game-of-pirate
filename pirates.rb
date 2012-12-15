@@ -32,6 +32,7 @@ class Game < Chingu::Window
 end
 
 class Player < Chingu::GameObject
+    trait :velocity
 
     def initialize(options = {})
         super(options.merge( :image => Image["pirateShip.png"] ))
@@ -39,20 +40,18 @@ class Player < Chingu::GameObject
         @x = 300
         @y = 300
 
-        # Duplication in data, sadly
-        @vector = Vector.new(@x, @y)
-        @cur_vector = Vector.new(1.0, 0.0).normalise 
+        self.max_velocity = 2
     end
 
    # Move in the vector you are pointing 
     def move_forward
-        speed = 4
-        new_vec = (@cur_vector.rotate angle.abs) * speed
-        
-        @x += new_vec.x
-        @y += new_vec.y
+        self.velocity_x = Gosu::offset_x(self.angle, 0.5)*self.max_velocity_x
+        self.velocity_y = Gosu::offset_y(self.angle, 0.5)*self.max_velocity_y
+    end
 
-        @cur_vector = new_vec.normalise 
+    def update
+        self.velocity_x *= 0.95
+        self.velocity_y *= 0.95
     end
 
     def steer_right
