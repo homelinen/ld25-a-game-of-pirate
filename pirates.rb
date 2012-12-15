@@ -25,14 +25,18 @@ class Player < Chingu::GameObject
 
         # Duplication in data, sadly
         @vector = Vector.new(@x, @y)
+        @cur_vector = Vector.new(1, 0).normalise 
     end
 
+   # Move in the vector you are pointing 
     def move_forward
-       # Move in the vector you are pointing 
-       temp_vector = Vector.new(1, @y).normalise 
-       temp_vector.rotate! 90
+        speed = 4
+        new_vec = (@cur_vector.rotate angle).normalise * speed
+        
+        @x += new_vec.x.abs
+        @y += new_vec.y.abs
 
-       puts temp_vector
+        @cur_vector = Vector.new(@x, @y).normalise 
     end
 
     def steer_right
