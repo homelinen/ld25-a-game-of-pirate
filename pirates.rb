@@ -15,7 +15,20 @@ class Game < Chingu::Window
         :holding_up => :move_forward,
         :space => :fire
     }
+
+    @sea = Sea.create
   end    
+
+  def draw
+    for i in (0..width/@sea.width) do
+        for j in (0..height/@sea.width) do
+            @sea.x = i * @sea.width
+            @sea.y = j * @sea.height
+            @sea.draw
+        end
+    end
+    @player.draw
+  end
 end
 
 class Player < Chingu::GameObject
@@ -54,6 +67,18 @@ class Player < Chingu::GameObject
         # Create a bullet object on either bow or stern
     end
 
+end
+
+class Sea < Chingu::GameObject
+    trait :animation, :delay => 200, :size => [64,64]
+
+    def initialize(options = {})
+        super(options.merge(:image => Image["sea.png"]))
+    end
+
+    def update
+        @image = self.animation.next if self.animation
+    end
 end
 
 # An area impassable to ships
