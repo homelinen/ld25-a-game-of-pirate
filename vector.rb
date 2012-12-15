@@ -14,13 +14,16 @@ class Vector
     end
 
     # Multiple components together to get a new vector
-    def crossProduct(v2)
+    def crossProduct!(v_cross)
 
-        x = (@x * v2.x) + (@x * v2.y)
-        y = (@y * v2.y) + (@y * v2.y)
+        @x = (@x * v_cross.x) + (@x * v_cross.y)
+        @y = (@y * v_cross.y) + (@y * v_cross.y)
+    end
 
-        vec = Vector.new( x, y )
-        vec
+    # Multiple components together to get a new vector
+    def crossProduct(v_cross)
+        vec = copy
+        vec.crossProduct!(v_cross)
     end
 
     # Calculate the modulus of the vector, or length
@@ -28,35 +31,35 @@ class Vector
         modulo = sqrt( @x ^ 2 + @y ^ 2)
     end
 
-    def rotate(angle)
+    # Rotate a vector by angle (degrees)
+    def rotate!(angle)
         rotationVector = Vector.new(cos(angle), sin(angle))
-        rotationVector = rotationVector.crossProduct Vector.new( -sin(angle), cos(angle) )
+        rotationVector.crossProduct! Vector.new( -sin(angle), cos(angle) )
 
-        vec = copy
-        vec = vec.crossProduct(rotationVector)
-
-        puts vec
-        vec
+        crossProduct!(rotationVector)
     end
 
-    def normalize
+    # Rotate a vector by angle (degrees)
+    def rotate(angle)
+        vec = copy
+        vec.rotate(angle)
+    end
 
-        # Initialise vars
-        vector = Vector.new
-
-        x_new = @x
-        y_new = @y
+    # Change vector to a form with no length
+    def normalise!
 
         # Avoid division by zero
-        if x_new != 0 && y_new != 0
-            x_new /= abs(x_new)
-            y_new /= abs(y_new)
+        if @x != 0 && @y != 0
+            @x /= abs(@x)
+            @y /= abs(@y)
         end
 
-        vector.x x_new
-        vector.y y_new
+        self 
+    end
 
-        vector
+    def normalise
+        vec = copy
+        vec.normalise!
     end
 
     # Divide all components by scalar
