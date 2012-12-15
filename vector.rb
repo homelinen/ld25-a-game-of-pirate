@@ -18,6 +18,8 @@ class Vector
 
         @x = (@x * v_cross.x) + (@x * v_cross.y)
         @y = (@y * v_cross.y) + (@y * v_cross.y)
+
+        self
     end
 
     # Multiple components together to get a new vector
@@ -42,16 +44,19 @@ class Vector
     # Rotate a vector by angle (degrees)
     def rotate(angle)
         vec = copy
-        vec.rotate(angle)
+        vec.rotate!(angle)
     end
 
     # Change vector to a form with no length
     def normalise!
 
         # Avoid division by zero
-        if @x != 0 && @y != 0
-            @x /= abs(@x)
-            @y /= abs(@y)
+        if @x != 0 
+            @x /= @x.abs
+        end
+
+        if @y != 0
+            @y /= @y.abs
         end
 
         self 
@@ -62,10 +67,33 @@ class Vector
         vec.normalise!
     end
 
+    def +(vec)
+        x = @x + vec.x
+        y = @y + vec.y
+
+        vec = Vector.new(x, y)
+    end
+
+    def -(vec)
+        x = @x - vec.x
+        y = @y - vec.y
+
+        vec = Vector.new(x, y)
+    end
+
+    def *(scalar)
+        x = @x * scalar
+        y = @y * scalar
+
+        vec = Vector.new(x, y)
+    end
+
     # Divide all components by scalar
     def /(scalar)
-        @x = @x / scalar
-        @y = @y / scalar
+        x = @x / scalar
+        y = @y / scalar
+
+        vec = Vector.new(x, y)
     end
 
     # Duplicate vector
