@@ -18,7 +18,6 @@ class Vector
 
         @x = (@x * v_cross.x) + (@x * v_cross.y)
         @y = (@y * v_cross.x) + (@y * v_cross.y)
-
         self
     end
 
@@ -30,7 +29,7 @@ class Vector
 
     # Calculate the modulus of the vector, or length
     def length
-        modulo = sqrt( @x ^ 2 + @y ^ 2)
+        modulo = sqrt( @x ** 2 + @y ** 2)
     end
 
     # Rotate a vector by angle (degrees)
@@ -39,6 +38,11 @@ class Vector
         rotationVector.crossProduct! Vector.new( -sin(angle), cos(angle) )
 
         rotationVector.crossProduct!(self)
+
+        @x = rotationVector
+        @y = rotationVector
+
+        rotationVector
     end
 
     # Rotate a vector by angle (degrees)
@@ -52,11 +56,11 @@ class Vector
 
         # Avoid division by zero
         if @x != 0 
-            @x /= @x.abs
+            @x /= length
         end
 
         if @y != 0
-            @y /= @y.abs
+            @y /= length
         end
 
         self 
