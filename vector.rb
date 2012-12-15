@@ -17,7 +17,7 @@ class Vector
     def crossProduct!(v_cross)
 
         @x = (@x * v_cross.x) + (@x * v_cross.y)
-        @y = (@y * v_cross.y) + (@y * v_cross.y)
+        @y = (@y * v_cross.x) + (@y * v_cross.y)
 
         self
     end
@@ -38,7 +38,7 @@ class Vector
         rotationVector = Vector.new(cos(angle), sin(angle))
         rotationVector.crossProduct! Vector.new( -sin(angle), cos(angle) )
 
-        crossProduct!(rotationVector)
+        rotationVector.crossProduct!(self)
     end
 
     # Rotate a vector by angle (degrees)
