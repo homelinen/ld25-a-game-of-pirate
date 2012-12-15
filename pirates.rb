@@ -12,7 +12,7 @@ class Game < Chingu::Window
     @player.input = {
         :holding_left => :steer_left, 
         :holding_right => :steer_right,
-        :up => :move_forward,
+        :holding_up => :move_forward,
         :space => :fire
     }
   end    
@@ -23,20 +23,23 @@ class Player < Chingu::GameObject
     def initialize(options = {})
         super(options.merge( :image => Image["pirateShip.png"] ))
 
+        @x = 300
+        @y = 300
+
         # Duplication in data, sadly
         @vector = Vector.new(@x, @y)
-        @cur_vector = Vector.new(1, 0).normalise 
+        @cur_vector = Vector.new(1.0, 0.0).normalise 
     end
 
    # Move in the vector you are pointing 
     def move_forward
         speed = 4
-        new_vec = (@cur_vector.rotate angle).normalise * speed
+        new_vec = (@cur_vector.rotate angle.abs) * speed
         
-        @x += new_vec.x.abs
-        @y += new_vec.y.abs
+        @x += new_vec.x
+        @y += new_vec.y
 
-        @cur_vector = Vector.new(@x, @y).normalise 
+        @cur_vector = new_vec.normalise 
     end
 
     def steer_right
