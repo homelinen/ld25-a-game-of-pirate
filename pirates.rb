@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 require "chingu"
 
 Dir["#{File.dirname(__FILE__)}/lib/*.rb"].each {|f| require f}
@@ -79,7 +78,7 @@ class Pirates < GameState
         end
 
         game_objects_of_class(Bullet).each do |cannon_ball|
-            cannon_ball.draw_relative(-@viewport.x, -@viewport.y)
+            cannon_ball.draw
         end
 
         @islands.each do |island|
@@ -91,6 +90,9 @@ class Pirates < GameState
         # Enemy
         @galleon.draw_relative(-@viewport.x, -@viewport.y)
 
+        game_objects_of_class(Dock).each do |dock|
+            dock.draw_relative(-@viewport.x, -@viewport.y)
+        end
     end
 end
 
