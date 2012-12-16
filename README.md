@@ -10,10 +10,11 @@ are the Villain"
 
 ## Run From Source ##
 
-  $ bundle install --without development
+    $ bundle install --without development
+    $ ruby pirates.rb
 
-  $ ruby pirates.rb
+## License ##
 
-
+See LICENCES.txt
 
 
