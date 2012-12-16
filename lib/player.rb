@@ -6,12 +6,9 @@ class Player < Ship
     def initialize(options = {})
         super(options.merge( :image => Image["pirateShip.png"] ))
 
-        @x = 300
-        @y = 300
-
         @last_fired = "right"
 
-        self.max_velocity = 2
+        self.max_velocity = 5
     end
 
     def fire_cannon

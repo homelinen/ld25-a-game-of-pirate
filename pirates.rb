@@ -11,7 +11,7 @@ class Game < Chingu::Window
 
   def setup
       retrofy
-      self.factor = 1
+      self.factor = 2
       switch_game_state(Pirates.new)
   end
 end
@@ -21,9 +21,10 @@ class Pirates < GameState
     def initialize(options = {})
         super
         self.viewport.lag = 0
-        self.viewport.game_area = [0, 0, 500, 500]
+        self.viewport.game_area = [0, 0, 1000, 1000]
 
-        @player = Player.create(:x => $window.width/2, :y => $window.height/2)
+        $viewport = {:width => 1000, :height => 1000}
+        @player = Player.create(:x => 500, :y => 500)
         @player.input = {
             :holding_left => :steer_left, 
             :holding_right => :steer_right,
@@ -31,7 +32,7 @@ class Pirates < GameState
             :space => :fire_cannon
         }
 
-        @sea = Sea.create
+        @sea = Sea.create(:zorder => 10)
 
         @islands = []
 
@@ -40,7 +41,11 @@ class Pirates < GameState
             @islands.push Island.new(:game_objects => {}, :island_size => min_size + rand(25))
         end
 
-        @galleon = Galleon.create(:x => rand($window.width), :y => rand($window.height))
+        @galleon = Galleon.create(
+            :x => rand($viewport[:width]),
+            :y => rand($viewport[:height]),
+            :max_velocity => 5
+        )
     end
 
     def update
@@ -55,8 +60,11 @@ class Pirates < GameState
     end
 
     def draw
-        @viewport.apply { super  }
-        self.game_objects.draw_relative(-@viewport.x, -@viewport.y)
+#        @viewport.apply { super  }
+        border_x = {:min => 0, :max => $viewport[:width] }
+        border_y = { :min => 0, :max => $viewport[:height] }
+#        self.game_objects.draw_relative(-@viewport.x, -@viewport.y)
+
         for i in (0..$window.width/@sea.width) do
             for j in (0..$window.height/@sea.height) do
                 @sea.x = i * @sea.width
@@ -66,21 +74,22 @@ class Pirates < GameState
         end
 
         game_objects_of_class(Grass).each do |grass_tile|
-            grass_tile.draw
+            grass_tile.draw_relative(-@viewport.x, -@viewport.y)
         end
 
         game_objects_of_class(Bullet).each do |cannon_ball|
-            cannon_ball.draw
+            cannon_ball.draw_relative(-@viewport.x, -@viewport.y)
         end
 
         @islands.each do |island|
-            island.draw
+            island.draw_relative(-@viewport.x, -@viewport.y)
         end
 
         @player.draw
 
         # Enemy
-        @galleon.draw
+        @galleon.draw_relative(-@viewport.x, -@viewport.y)
+
     end
 end
 

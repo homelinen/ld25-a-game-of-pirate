@@ -27,14 +27,15 @@ class Island < GameObjectMap
     end
 
     def generate size
-        x_start = rand($window.width/@width)
-        y_start = rand($window.height/@height)
+        border_x = {:min => 0, :max => $viewport[:width] }
+        border_y = { :min => 0, :max => $viewport[:height] }
+
+        x_start = rand(border_x[:max]/@width)
+        y_start = rand(border_y[:max]/@height)
 
         land = []
         land.push( { :x => x_start, :y => y_start } )
 
-        border_x = {:min => 0, :max => $window.width}
-        border_y = { :min => 0, :max => $window.height }
 
         # Consider storing first land as a var
         neighbours = Island.find_neighbours(land.first, border_x, border_y)
@@ -96,6 +97,9 @@ class Island < GameObjectMap
         neighbours
     end
 
-    def draw
+    def draw_relative(x, y)
+        @map.each do |tile| 
+            tile.draw_relative(x, y)
+        end
     end
 end

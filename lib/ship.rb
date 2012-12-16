@@ -5,7 +5,7 @@ class Ship < Chingu::GameObject
     def initialize(options = {})
         super(options)
 
-        self.max_velocity = 2
+        self.max_velocity = 5
     end
 
    # Move in the vector you are pointing 

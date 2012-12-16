@@ -12,7 +12,7 @@ class Galleon < Ship
 
         # plot course
 
-        if (@x >= 0 && @x < $window.width) && (@y >= 0 && @y < $window.height)
+        if (@x >= 0 && @x < $viewport[:width]) && (@y >= 0 && @y < $viewport[:height])
             # Flip a coin
             direction = rand(10)
 
