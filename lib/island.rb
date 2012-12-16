@@ -24,6 +24,8 @@ class Island < GameObjectMap
                   :y => point[:y] * @grid[1]
             )
         end
+
+        make_dock
     end
 
     def generate size
@@ -101,5 +103,23 @@ class Island < GameObjectMap
         @map.each do |tile| 
             tile.draw_relative(x, y)
         end
+    end
+
+    # Find a location on the island to put a dock
+    def make_dock
+
+        lowest = @land.first
+        @land.each do |tile|
+            if more_south(tile, lowest)
+                lowest = tile
+            end
+        end
+
+        Dock.create(:x => lowest[:x] * @width, :y => (lowest[:y]+ 1) * @height )
+    end
+
+    # Check if tile2 is more south than tile 1
+    def more_south(tile1, tile2)
+        return tile1[:y] > tile2[:y]
     end
 end
