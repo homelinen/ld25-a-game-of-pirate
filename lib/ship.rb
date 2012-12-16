@@ -1,5 +1,6 @@
 class Ship < Chingu::GameObject
     trait :velocity
+
 #    traits :collision_detection, :bounding_box
 
     def initialize(options = {})

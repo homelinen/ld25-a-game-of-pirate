@@ -2,6 +2,7 @@ require_relative "ship"
 
 class Player < Ship
     trait :velocity
+    traits :bounding_box, :collision_detection
 
     def initialize(options = {})
         super(options.merge( :image => Image["pirateShip.png"] ))
@@ -9,6 +10,7 @@ class Player < Ship
         @last_fired = "right"
 
         self.max_velocity = 5
+        p self.bounding_box
     end
 
     def fire_cannon

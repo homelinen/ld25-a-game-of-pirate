@@ -1,13 +1,23 @@
 require "chingu"
 
-# Consider using a module
-class Grass < Chingu::GameObject
+class IslandTile < Chingu::GameObject
+    trait :bounding_box
+
     def initialize(options = {})
         super options
     end
 end
 
-class House < GameObject
+# Consider using a module
+class Grass < IslandTile
+    trait :bounding_box
+
+    def initialize(options = {})
+        super options
+    end
+end
+
+class House < IslandTile
     trait :animation
     trait :bounding_box
     
@@ -22,7 +32,7 @@ class House < GameObject
     end
 end
 
-class Beach < Chingu::GameObject
+class Beach < IslandTile
     trait :bounding_box
 
     def initialize(options = {})

@@ -32,6 +32,8 @@ class Pirates < GameState
             :space => :fire_cannon
         }
 
+        @deaths = 0
+
         @sea = Sea.create(:zorder => 10)
 
         @islands = Islands.new(:game_objects => {})
@@ -56,6 +58,40 @@ class Pirates < GameState
         Galleon.each_collision(Bullet) do |galleon, bullet|
             galleon.destroy
             bullet.destroy
+        end
+
+        @bullets = []
+        game_objects.each do |object|
+            @bullets.push object if object.is_a? Bullet
+        end
+
+        @bullets.each do |bullet|
+
+            if ! @galleon.nil? && @galleon.collides?(bullet)
+                p "Hit"
+                @galleon.destroy
+                @galleon = nil
+                bullet.destroy
+            end
+
+            if @player.collides? bullet
+                puts "YOU WERE STRUCK!"
+            end
+        end
+
+        @islands.map.each do |object|
+            if object.is_a? IslandTile
+
+                if @player.collides?(object)
+                    @deaths += 1
+
+                    puts @deaths
+                elsif !@galleon.nil? && @galleon.collides?(object)
+
+                    @galleon.destroy
+                    @galleon = nil
+                end
+            end
         end
     end
 
@@ -82,7 +118,7 @@ class Pirates < GameState
         @player.draw
 
         # Enemy
-        @galleon.draw_relative(-@viewport.x, -@viewport.y)
+        @galleon.draw_relative(-@viewport.x, -@viewport.y) if !@galleon.nil?
     end
 end
 
