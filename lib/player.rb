@@ -30,7 +30,19 @@ class Player < Chingu::GameObject
     end
 
     def fire
+        max_velocity = 10
+        velocity_x = Gosu::offset_x(self.angle + 90, 0.5)*max_velocity
+        velocity_y = Gosu::offset_y(self.angle + 90, 0.5)*max_velocity
+
+
         # Create a bullet object on either bow or stern
+        bullet = Bullet.create(
+                :x => @x,
+                :y => @y,
+                :velocity_x => velocity_x,
+                :velocity_y => velocity_y,
+                :max_velocity => max_velocity
+        )
     end
 
 end

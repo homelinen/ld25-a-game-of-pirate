@@ -58,6 +58,10 @@ class Pirates < GameState
             grass_tile.draw
         end
 
+        game_objects_of_class(Bullet).each do |cannon_ball|
+            cannon_ball.draw
+        end
+
         @island.draw
         @player.draw
     end
