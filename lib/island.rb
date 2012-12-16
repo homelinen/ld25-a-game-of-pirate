@@ -5,11 +5,11 @@ include Chingu
 
 # An area impassable to ships
 # Other things can be built onto it
-class Island < GameObjectMap 
+class Island < GameObjectMap
     def initialize(options = {})
         super(options)
-        @width = @grid[0]
-        @height = @grid[1]
+        @width = 32
+        @height = 32
 
         island_size = 20
         island_size = options[:island_size] if options[:island_size]
@@ -18,11 +18,11 @@ class Island < GameObjectMap
 
         # Create the drawable objects
         @land.each do |point|
-            Grass.create(
+            @map.push(Grass.create(
                   :image => Image["grass.png"],
-                  :x => point[:x] * @grid[0],
-                  :y => point[:y] * @grid[1]
-            )
+                  :x => point[:x] * @width,
+                  :y => point[:y] * @height
+            ))
         end
 
         make_dock
@@ -61,6 +61,7 @@ class Island < GameObjectMap
 
         @land = land
         @coast = neighbours
+
     end
 
     # Return a list of co-ords above and below, but within the limits
@@ -115,7 +116,7 @@ class Island < GameObjectMap
             end
         end
 
-        Dock.create(:x => lowest[:x] * @width, :y => (lowest[:y]+ 1) * @height )
+        @map.push(Dock.create(:x => lowest[:x] * @width, :y => (lowest[:y]+ 1) * @height ))
     end
 
     # Check if tile2 is more south than tile 1
