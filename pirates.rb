@@ -11,19 +11,15 @@ class Game < Chingu::Window
 
   def setup
       retrofy
-      self.factor = 2
+      self.factor = 1
       switch_game_state(Pirates.new)
   end
 end
 
 class Pirates < GameState
-    trait :viewport
     def initialize(options = {})
         super
-        self.viewport.lag = 0
-        self.viewport.game_area = [0, 0, 1000, 1000]
 
-        $viewport = {:width => 1000, :height => 1000}
         @player = Player.create(:x => 500, :y => 500)
         @player.input = {
             :holding_left => :steer_left, 
@@ -44,15 +40,14 @@ class Pirates < GameState
         end
 
         @galleon = Galleon.create(
-            :x => rand($viewport[:width]),
-            :y => rand($viewport[:height]),
+            :x => rand($window.width),
+            :y => rand($window.height),
             :max_velocity => 5
         )
     end
 
     def update
         super
-        self.viewport.center_around(@player)
 
         # Collisions
         Galleon.each_collision(Bullet) do |galleon, bullet|
@@ -96,10 +91,8 @@ class Pirates < GameState
     end
 
     def draw
-#        @viewport.apply { super  }
-        border_x = {:min => 0, :max => $viewport[:width] }
-        border_y = { :min => 0, :max => $viewport[:height] }
-#        self.game_objects.draw_relative(-@viewport.x, -@viewport.y)
+        border_x = {:min => 0, :max => $window.width }
+        border_y = { :min => 0, :max => $window.height }
 
         for i in (0..($window.width/@sea.width + 1)) do
             for j in (0..($window.height/@sea.height + 1)) do
@@ -113,12 +106,12 @@ class Pirates < GameState
             cannon_ball.draw
         end
 
-        @islands.draw_relative(-@viewport.x, -@viewport.y)
+        @islands.draw
 
         @player.draw
 
         # Enemy
-        @galleon.draw_relative(-@viewport.x, -@viewport.y) if !@galleon.nil?
+        @galleon.draw if !@galleon.nil?
     end
 end
 

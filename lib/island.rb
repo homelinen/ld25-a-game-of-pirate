@@ -41,8 +41,8 @@ class Island < GameObjectMap
     end
 
     def generate size
-        border_x = {:min => 0, :max => $viewport[:width] }
-        border_y = { :min => 0, :max => $viewport[:height] }
+        border_x = {:min => 0, :max => $window.width }
+        border_y = { :min => 0, :max => $window.height }
 
         x_start = rand(border_x[:max]/@width)
         y_start = rand(border_y[:max]/@height)

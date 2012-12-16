@@ -11,6 +11,12 @@ class Islands < GameObjectMap
         @map += map.map
     end
 
+    def draw
+        @map.each do |tile| 
+            tile.draw
+        end
+    end
+
     def draw_relative(x, y)
         @map.each do |tile| 
             tile.draw_relative(x, y)
