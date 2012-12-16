@@ -38,9 +38,8 @@ class Pirates < GameState
 
         min_size = 5
         for i in (0..5) do
-            @islands.add_map Island.new(:game_objects => {}, :island_size => min_size + rand(25))
+            @islands.add_map(Island.new(:game_objects => {}, :island_size => min_size + rand(25)))
         end
-
 
         @galleon = Galleon.create(
             :x => rand($viewport[:width]),
@@ -72,10 +71,6 @@ class Pirates < GameState
                 @sea.y = j * @sea.height
                 @sea.draw
             end
-        end
-
-        game_objects_of_class(Grass).each do |grass_tile|
-            grass_tile.draw_relative(-@viewport.x, -@viewport.y)
         end
 
         game_objects_of_class(Bullet).each do |cannon_ball|

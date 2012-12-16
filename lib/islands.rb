@@ -8,7 +8,7 @@ class Islands < GameObjectMap
     end
 
     def add_map(map)
-        @map + map.map
+        @map += map.map
     end
 
     def draw_relative(x, y)

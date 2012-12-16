@@ -23,8 +23,20 @@ class Island < GameObjectMap
                   :x => point[:x] * @width,
                   :y => point[:y] * @height
             ))
+            
         end
 
+        @coast.each do |beach|
+            @map.push(
+                Beach.create(
+                  :image => Image["beach.png"],
+                  :x => beach[:x] * @width,
+                  :y => beach[:y] * @height
+                )
+            )
+        end
+
+        p "Land: #{@land.length}, Coast: #{@coast.length}"
         make_dock
     end
 
@@ -55,14 +67,16 @@ class Island < GameObjectMap
             # Remove from list
             neighbours.delete_at index
             
-            neighbours += Island.find_neighbours(tempNode, border_x, border_y)
+            possible_neighbours = Island.find_neighbours(tempNode, border_x, border_y)
+
+            possible_neighbours.keep_if {|n| land.index(n).nil?}
+            neighbours += possible_neighbours
+            neighbours.uniq!
             land.push tempNode
         end
 
         @land = land
         @coast = neighbours
-
-        p @coast
     end
 
     # Return a list of co-ords above and below, but within the limits
@@ -110,18 +124,18 @@ class Island < GameObjectMap
     # Find a location on the island to put a dock
     def make_dock
 
-        lowest = @land.first
-        @land.each do |tile|
+        lowest = @map.first
+        @map.each do |tile|
             if more_south(tile, lowest)
                 lowest = tile
             end
         end
 
-        @map.push(Dock.create(:x => lowest[:x] * @width, :y => (lowest[:y]+ 1) * @height ))
+        @map.push(Dock.create(:x => lowest.x, :y => (lowest.y + 1*@height) ))
     end
 
     # Check if tile2 is more south than tile 1
     def more_south(tile1, tile2)
-        return tile1[:y] > tile2[:y]
+        return tile1.y > tile2.y
     end
 end
