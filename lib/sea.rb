@@ -1,5 +1,5 @@
 class Sea < Chingu::GameObject
-    trait :animation, :delay => 200 
+    trait :animation, :delay => 200, :size => 64, :bounce => true
 
     def initialize(options = {})
         super(options.merge(:image => Image["sea.png"]))

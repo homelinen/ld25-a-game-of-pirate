@@ -1,7 +1,5 @@
 # TODO #
 
-* Canon fire
-* Enemy ships
 * Towns
 * Prisoners
 * Capturing prisoners
@@ -14,4 +12,6 @@
 * Slow down bullets over time
 * Canon cooldown
 * Ammo? (Cooldown should be good enough)
-
+* Islands crossover
+* Collision with islands
+* Destroyed ship animation

@@ -10,7 +10,11 @@ class Island < GameObjectMap
         super(options)
         @width = @grid[0]
         @height = @grid[1]
-        generate
+
+        island_size = 20
+        island_size = options[:island_size] if options[:island_size]
+
+        generate island_size
 
         # Create the drawable objects
         @land.each do |point|
@@ -22,7 +26,7 @@ class Island < GameObjectMap
         end
     end
 
-    def generate
+    def generate size
         x_start = rand($window.width/@width)
         y_start = rand($window.height/@height)
 
@@ -36,7 +40,7 @@ class Island < GameObjectMap
         neighbours = Island.find_neighbours(land.first, border_x, border_y)
 
         # Create a 10 tile island
-        for i in 0..10 do
+        for i in 0..size do
             if neighbours.length < 1
                 break
             end
