@@ -62,6 +62,7 @@ class Island < GameObjectMap
         @land = land
         @coast = neighbours
 
+        p @coast
     end
 
     # Return a list of co-ords above and below, but within the limits
