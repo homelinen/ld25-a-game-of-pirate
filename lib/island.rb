@@ -1,4 +1,7 @@
 require_relative "island_tiles"
+require "chingu"
+
+include Chingu
 
 # An area impassable to ships
 # Other things can be built onto it
@@ -26,45 +29,60 @@ class Island < GameObjectMap
         land = []
         land.push( { :x => x_start, :y => y_start } )
 
+        border_x = {:min => 0, :max => $window.width}
+        border_y = { :min => 0, :max => $window.height }
+
         # Consider storing first land as a var
-        neighbours = find_neighbours(land.first)
+        neighbours = Island.find_neighbours(land.first, border_x, border_y)
 
         # Create a 10 tile island
         for i in 0..10 do
-            if neighbours.length >= 0
-                # Select a random neighbour node
-                index = rand(neighbours.length)
-                tempNode = neighbours[index] 
-
-                # Remove from list
-                neighbours.delete_at index
-                
-                neighbours += find_neighbours(tempNode)
-                land.push tempNode
+            if neighbours.length < 1
+                break
             end
+
+            # Select a random neighbour node
+            index = rand(neighbours.length)
+            tempNode = neighbours[index] 
+
+            # Remove from list
+            neighbours.delete_at index
+            
+            neighbours += Island.find_neighbours(tempNode, border_x, border_y)
+            land.push tempNode
         end
 
         @land = land
         @coast = neighbours
     end
 
-    def find_neighbours(vec)
+    # Return a list of co-ords above and below, but within the limits
+    #
+    # Should be a helper method
+    def self.find_neighbours(vec, minx, miny)
+        if vec.nil?
+            # On empty vector, just return an empty neighbour
+            return {}
+        end
+
         x = vec[:x]
         y = vec[:y]
 
         neighbours = []
 
         # Add adjacent cells to neighbour list
-        [-1, 1].each do |i|
+        (-1..1).each do |i|
+            new_x = x + i
             # Ensure x in range
-            if x + i >= 0 && x + i < $window.width
-                [-1, 1].each do |j|
+            if new_x >= minx[:min] && new_x < minx[:max]
+                (-1..1).each do |j|
 
+                    new_y = y + j
                     # Ensure y in range
-                    if y + i >= 0 && y + i < $window.height
+                    if new_y >= miny[:min] && new_y < miny[:max]
                         # Check for diagonals
-                        if ((x + y) % 2) != 0 
-                            neighbours.push( { :x => x + i, :y => y + j } )       
+                        if ((i + j) % 2) != 0 && i != j 
+                            neighbours.push( { :x => new_x, :y => new_y } )       
                         end
                     end
                 end
