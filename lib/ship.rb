@@ -1,5 +1,6 @@
 class Ship < Chingu::GameObject
     trait :velocity
+#    traits :collision_detection, :bounding_box
 
     def initialize(options = {})
         super(options)
@@ -28,14 +29,19 @@ class Ship < Chingu::GameObject
 
     def fire
         max_velocity = 10
-        velocity_x = Gosu::offset_x(self.angle + 90, 0.5)*max_velocity
-        velocity_y = Gosu::offset_y(self.angle + 90, 0.5)*max_velocity
 
+        fire_angle = 90
+
+        velocity_x = Gosu::offset_x(self.angle + fire_angle, 0.5)*max_velocity
+        velocity_y = Gosu::offset_y(self.angle + fire_angle, 0.5)*max_velocity
+
+        offset_x = Gosu::offset_x(self.angle + fire_angle, self.width/2 + 1)
+        offset_y = Gosu::offset_y(self.angle + fire_angle, self.height/2 + 1)
 
         # Create a bullet object on either bow or stern
         bullet = Bullet.create(
-                :x => @x,
-                :y => @y,
+                :x => @x + offset_x,
+                :y => @y + offset_y,
                 :velocity_x => velocity_x,
                 :velocity_y => velocity_y,
                 :max_velocity => max_velocity
