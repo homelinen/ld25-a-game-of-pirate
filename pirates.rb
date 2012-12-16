@@ -35,7 +35,12 @@ class Pirates < GameState
 
         @sea = Sea.create
 
-        @island = Island.new(:game_objects => {})
+        @islands = []
+
+        min_size = 5
+        for i in (0..5) do
+            @islands.push Island.new(:game_objects => {}, :island_size => min_size + rand(25))
+        end
 
         @galleon = Galleon.create(:x => rand($window.width), :y => rand($window.height))
     end
@@ -70,7 +75,10 @@ class Pirates < GameState
             cannon_ball.draw
         end
 
-        @island.draw
+        @islands.each do |island|
+            island.draw
+        end
+
         @player.draw
 
         # Enemy
