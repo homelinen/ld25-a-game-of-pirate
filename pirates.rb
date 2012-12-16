@@ -20,15 +20,12 @@ class Pirates < GameState
     def initialize(options = {})
         super
 
-        @player = Player.create(:x => 500, :y => 500)
-        @player.input = {
-            :holding_left => :steer_left, 
-            :holding_right => :steer_right,
-            :holding_up => :move_forward,
-            :space => :fire_cannon
-        }
+        $window.caption = "A Game of Pirates"
+
+        self.input = { :escape => :end_game }
 
         @deaths = 0
+        @prisoner_count = 0
 
         @sea = Sea.create(:zorder => 10)
 
@@ -38,6 +35,18 @@ class Pirates < GameState
         for i in (0..5) do
             @islands.add_map(Island.new(:game_objects => {}, :island_size => min_size + rand(25)))
         end
+
+        @player = Player.create(:x => rand($window.width), :y => rand($window.height))
+        while (@islands.occupied?(@player))
+            @player = Player.create(:x => rand($window.width), :y => rand($window.height))
+        end
+
+        @player.input = {
+            :holding_left => :steer_left, 
+            :holding_right => :steer_right,
+            :holding_up => :move_forward,
+            :space => :fire_cannon
+        }
 
         @galleon = Galleon.create(
             :x => rand($window.width),
@@ -63,10 +72,7 @@ class Pirates < GameState
             bullet.destroy
         end
 
-        @bullets = []
-        game_objects.each do |object|
-            @bullets.push object if object.is_a? Bullet
-        end
+        @bullets = game_objects_of_class(Bullet)
 
         @bullets.each do |bullet|
 
@@ -75,10 +81,10 @@ class Pirates < GameState
                 @galleon.destroy
                 @galleon = nil
                 bullet.destroy
-            end
-
-            if @player.collides? bullet
+                break
+            elsif @player.collides? bullet
                 puts "YOU WERE STRUCK!"
+                end_game
             end
         end
 
@@ -87,11 +93,22 @@ class Pirates < GameState
 
                 if @player.collides?(object)
                     @deaths += 1
-
-                    puts @deaths
+                    end_game
                 elsif !@galleon.nil? && @galleon.collides?(object)
 
                     @galleon.reverse 
+                    break;
+                end
+
+                if object.is_a? House
+                    @bullets.each do |bullet|
+                        if object.collides?(bullet)
+                            @prisoner_count += object.capture
+                            object.pause!
+                            object.destroy
+                            break;
+                        end
+                    end
                 end
             end
         end
@@ -109,9 +126,6 @@ class Pirates < GameState
             end
         end
 
-        game_objects_of_class(Bullet).each do |cannon_ball|
-            cannon_ball.draw
-        end
 
         @islands.draw
 
@@ -119,6 +133,15 @@ class Pirates < GameState
 
         # Enemy
         @galleon.draw if !@galleon.nil?
+
+        game_objects_of_class(Bullet).each do |cannon_ball|
+            cannon_ball.draw
+        end
+    end
+
+    def end_game
+        puts "You Trapped #{@prisoner_count} villagers!"
+        exit
     end
 end
 

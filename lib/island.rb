@@ -16,6 +16,9 @@ class Island < GameObjectMap
 
         generate island_size
 
+        @map = []
+        @land.compact!
+
         # Create the drawable objects
         @land.each do |point|
             @map.push(Grass.create(
@@ -36,7 +39,12 @@ class Island < GameObjectMap
             )
         end
 
-        p "Land: #{@land.length}, Coast: #{@coast.length}"
+        house_pos = @land.first
+        @map.push( House.create(
+            :x => house_pos[:x] * @width,
+            :y => house_pos[:y] * @height,
+            :resident_count => 5
+        ) )
         make_dock
     end
 

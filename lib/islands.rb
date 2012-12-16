@@ -30,6 +30,9 @@ class Islands < GameObjectMap
 
     def draw_relative(x, y)
         @map.each do |tile| 
+            if tile.paused?
+                puts "Paused"
+            end
             tile.draw_relative(x, y)
         end
     end

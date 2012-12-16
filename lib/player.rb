@@ -10,7 +10,6 @@ class Player < Ship
         @last_fired = "right"
 
         self.max_velocity = 5
-        p self.bounding_box
     end
 
     def fire_cannon

@@ -43,7 +43,8 @@ class Ship < Chingu::GameObject
                 :y => @y + offset_y,
                 :velocity_x => velocity_x,
                 :velocity_y => velocity_y,
-                :max_velocity => max_velocity
+                :max_velocity => max_velocity,
+                :zorder => 500
         )
     end
 
