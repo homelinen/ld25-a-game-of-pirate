@@ -34,12 +34,13 @@ class Pirates < GameState
 
         @sea = Sea.create(:zorder => 10)
 
-        @islands = []
+        @islands = Islands.new(:game_objects => {})
 
         min_size = 5
         for i in (0..5) do
-            @islands.push Island.new(:game_objects => {}, :island_size => min_size + rand(25))
+            @islands.add_map Island.new(:game_objects => {}, :island_size => min_size + rand(25))
         end
+
 
         @galleon = Galleon.create(
             :x => rand($viewport[:width]),
@@ -81,18 +82,12 @@ class Pirates < GameState
             cannon_ball.draw
         end
 
-        @islands.each do |island|
-            island.draw_relative(-@viewport.x, -@viewport.y)
-        end
+        @islands.draw_relative(-@viewport.x, -@viewport.y)
 
         @player.draw
 
         # Enemy
         @galleon.draw_relative(-@viewport.x, -@viewport.y)
-
-        game_objects_of_class(Dock).each do |dock|
-            dock.draw_relative(-@viewport.x, -@viewport.y)
-        end
     end
 end
 
