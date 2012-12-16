@@ -1,9 +1,9 @@
 class Bullet < Chingu::GameObject
     traits :velocity, :bounding_circle
-    trait :animation, :delay => 200, :size => [16,16]
+    trait :animation, :delay => 80
 
     def initialize(options = {})
-        super(options.merge(:image => Image["cannon-ball.png"]))
+        super(options)
     end
 
     def update
