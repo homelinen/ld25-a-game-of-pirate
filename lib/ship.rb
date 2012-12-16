@@ -27,16 +27,14 @@ class Ship < Chingu::GameObject
         @angle -= 2
     end
 
-    def fire
+    def fire fire_angle
         max_velocity = 10
-
-        fire_angle = 90
 
         velocity_x = Gosu::offset_x(self.angle + fire_angle, 0.5)*max_velocity
         velocity_y = Gosu::offset_y(self.angle + fire_angle, 0.5)*max_velocity
 
-        offset_x = Gosu::offset_x(self.angle + fire_angle, self.width/2 + 1)
-        offset_y = Gosu::offset_y(self.angle + fire_angle, self.height/2 + 1)
+        offset_x = Gosu::offset_x(self.angle + fire_angle, self.width/2 + 9)
+        offset_y = Gosu::offset_y(self.angle + fire_angle, self.height/2 + 9)
 
         # Create a bullet object on either bow or stern
         bullet = Bullet.create(

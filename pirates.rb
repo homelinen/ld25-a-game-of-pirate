@@ -30,17 +30,25 @@ class Pirates < GameState
             :holding_left => :steer_left, 
             :holding_right => :steer_right,
             :holding_up => :move_forward,
-            :space => :fire
+            :space => :fire_cannon
         }
 
         @sea = Sea.create
 
         @island = Island.new(:game_objects => {})
+
+        @galleon = Galleon.create(:x => rand($window.width), :y => rand($window.height))
     end
 
     def update
         super
         self.viewport.center_around(@player)
+
+        # Collisions
+        Galleon.each_collision(Bullet) do |galleon, bullet|
+            galleon.destroy
+            bullet.destroy
+        end
     end
 
     def draw
@@ -64,6 +72,9 @@ class Pirates < GameState
 
         @island.draw
         @player.draw
+
+        # Enemy
+        @galleon.draw
     end
 end
 

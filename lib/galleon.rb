@@ -28,7 +28,11 @@ class Galleon < Ship
         end
 
         if rand(200) == 0
-            fire
+            if rand(11) > 5
+                fire(90)
+            else
+                fire(-90)
+            end
         end
 
         move_forward
