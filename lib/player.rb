@@ -1,4 +1,6 @@
-class Player < Chingu::GameObject
+require_relative "ship"
+
+class Player < Ship
     trait :velocity
 
     def initialize(options = {})
@@ -9,40 +11,4 @@ class Player < Chingu::GameObject
 
         self.max_velocity = 2
     end
-
-   # Move in the vector you are pointing 
-    def move_forward
-        self.velocity_x = Gosu::offset_x(self.angle, 0.5)*self.max_velocity_x
-        self.velocity_y = Gosu::offset_y(self.angle, 0.5)*self.max_velocity_y
-    end
-
-    def update
-        self.velocity_x *= 0.95
-        self.velocity_y *= 0.95
-    end
-
-    def steer_right
-        @angle += 2
-    end
-
-    def steer_left
-        @angle -= 2
-    end
-
-    def fire
-        max_velocity = 10
-        velocity_x = Gosu::offset_x(self.angle + 90, 0.5)*max_velocity
-        velocity_y = Gosu::offset_y(self.angle + 90, 0.5)*max_velocity
-
-
-        # Create a bullet object on either bow or stern
-        bullet = Bullet.create(
-                :x => @x,
-                :y => @y,
-                :velocity_x => velocity_x,
-                :velocity_y => velocity_y,
-                :max_velocity => max_velocity
-        )
-    end
-
 end
