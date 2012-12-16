@@ -17,6 +17,17 @@ class Islands < GameObjectMap
         end
     end
 
+    def occupied?(game_object)
+        occupado = false
+
+        @map.each do |tile|
+             if game_object.collides? tile
+                 occupado = true
+             end
+        end
+        occupado
+    end
+
     def draw_relative(x, y)
         @map.each do |tile| 
             tile.draw_relative(x, y)

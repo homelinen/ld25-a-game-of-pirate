@@ -42,8 +42,16 @@ class Pirates < GameState
         @galleon = Galleon.create(
             :x => rand($window.width),
             :y => rand($window.height),
-            :max_velocity => 5
+            :max_velocity => 10
         )
+        while (@islands.occupied?(@galleon))
+            @galleon = Galleon.create(
+                :x => rand($window.width),
+                :y => rand($window.height),
+                :max_velocity => 10
+            )
+        end
+
     end
 
     def update
@@ -83,8 +91,7 @@ class Pirates < GameState
                     puts @deaths
                 elsif !@galleon.nil? && @galleon.collides?(object)
 
-                    @galleon.destroy
-                    @galleon = nil
+                    @galleon.reverse 
                 end
             end
         end

@@ -6,13 +6,19 @@ class Galleon < Ship
     
     def initialize(options = {})
         super(options.merge(:image => Image["galleon.png"]))
+
+        @about_face = false
     end
 
     def update
 
         # plot course
 
-        if (@x >= 0 && @x < $window.width) && (@y >= 0 && @y < $window.height)
+        if @about_face
+            @angle += 90
+            @about_face = false
+            move((@previous_x - @x) * @max_velocity_x, (@previous_y - y) * @max_velocity_y)
+        elsif (@x >= 0 && @x < $window.width) && (@y >= 0 && @y < $window.height)
             # Flip a coin
             direction = rand(10)
 
@@ -40,4 +46,7 @@ class Galleon < Ship
         # If see enemy, engage
     end
 
+    def reverse
+        @about_face = true
+    end
 end
