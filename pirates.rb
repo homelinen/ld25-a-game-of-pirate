@@ -65,8 +65,8 @@ class Pirates < GameState
         border_y = { :min => 0, :max => $viewport[:height] }
 #        self.game_objects.draw_relative(-@viewport.x, -@viewport.y)
 
-        for i in (0..$window.width/@sea.width) do
-            for j in (0..$window.height/@sea.height) do
+        for i in (0..($window.width/@sea.width + 1)) do
+            for j in (0..($window.height/@sea.height + 1)) do
                 @sea.x = i * @sea.width
                 @sea.y = j * @sea.height
                 @sea.draw
