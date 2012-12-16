@@ -6,7 +6,6 @@
 * Prisoners count
 * Trading prisoners
 * Upgrading ship
-* Viewport scrolling
 * Beaches on islands
 * Add unpredictibility to canonballs (shoogle that angle)
 * Slow down bullets over time
@@ -15,3 +14,5 @@
 * Islands crossover
 * Collision with islands
 * Destroyed ship animation
+* Gold
+* Highscores?
