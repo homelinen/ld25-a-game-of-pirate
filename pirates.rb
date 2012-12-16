@@ -1,10 +1,8 @@
 require "chingu"
 
-$LOAD_PATH << "./lib"
+Dir["#{File.dirname(__FILE__)}/lib/*.rb"].each {|f| require f}
 include Gosu
 include Chingu
-
-require_rel 'lib/*.rb'
 
 class Game < Chingu::Window
   def initialize
