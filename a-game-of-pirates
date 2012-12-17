@@ -157,9 +157,26 @@ class EndState < GameState
 
         self.input = { :escape => :exit }
 
-        Chingu::Text.create("You Lost", :y => 100)
-        Chingu::Text.create("You captured: #{options[:prisoner_count]} villagers!", :y => 300)
-        Chingu::Text.create("Press <ESC> to exit", :y => 500)
+        x_offset = $window.width / 3 
+        Text.create("You Lost",
+             :x => x_offset,
+             :y => 100,
+             :size => 40,
+             :align => :center
+        )
+
+        Text.create("You captured: #{options[:prisoner_count]} villagers!",
+             :x => x_offset,
+             :y => 300,
+             :size => 30,
+             :align => :center
+        )
+
+        Text.create("Press <ESC> to exit",
+             :x => x_offset,
+             :y => 500,
+             :align => :center
+        )
     end
 
     def draw
