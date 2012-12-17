@@ -39,7 +39,7 @@ class Island < GameObjectMap
             )
         end
 
-        house_pos = @land.first
+        house_pos = @land[3]
         @map.push( House.create(
             :x => house_pos[:x] * @width,
             :y => house_pos[:y] * @height,
