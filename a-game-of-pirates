@@ -143,7 +143,27 @@ class Pirates < GameState
 
     def end_game
         puts "You Trapped #{@prisoner_count} villagers!"
-        exit
+        close
+
+       switch_game_state(EndState.new(:prisoner_count => @prisoner_count))
+    end
+end
+
+class EndState < GameState
+
+    def initialize(options = {})
+        super(options)
+        $window.caption = "A Game of Pirates: You Lost"
+
+        self.input = { :escape => :exit }
+
+        Chingu::Text.create("You Lost", :y => 100)
+        Chingu::Text.create("You captured: #{options[:prisoner_count]} villagers!", :y => 300)
+        Chingu::Text.create("Press <ESC> to exit", :y => 500)
+    end
+
+    def draw
+        super
     end
 end
 
