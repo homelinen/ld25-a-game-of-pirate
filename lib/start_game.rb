@@ -2,7 +2,11 @@
 
 require "chingu"
 
-Dir["#{File.dirname(__FILE__)}/lib/*.rb"].each {|f| require f}
+Dir["#{File.dirname(__FILE__)}/chingu/*.rb"].each do |f| 
+    puts f
+    require f
+end
+
 include Gosu
 include Chingu
 
