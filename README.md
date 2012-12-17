@@ -11,8 +11,7 @@ are the Villain"
 ## Run From Source ##
 
     $ bundle install --without development
-    $ ruby pirates.rb
-
+    $ ./a-game-of-pirates
 ## License ##
 
 See LICENCES.txt
