@@ -8,10 +8,15 @@ are the Villain"
 * Movement: `Arrow Keys`
 * Fire Canon: `space` 
 
-## Run From Source ##
+## Install ##
+
+Windows: [a-game-of-pirates.zip](http://calumgilchrist.co.uk/ludum-dare/ld25-a-game-of-pirates.zip) Just run the exe
+
+### Run From Source ###
 
     $ bundle install --without development
     $ ./a-game-of-pirates
+
 ## License ##
 
 See LICENCES.txt

@@ -143,7 +143,44 @@ class Pirates < GameState
 
     def end_game
         puts "You Trapped #{@prisoner_count} villagers!"
-        exit
+        close
+
+       switch_game_state(EndState.new(:prisoner_count => @prisoner_count))
+    end
+end
+
+class EndState < GameState
+
+    def initialize(options = {})
+        super(options)
+        $window.caption = "A Game of Pirates: You Lost"
+
+        self.input = { :escape => :exit }
+
+        x_offset = $window.width / 3 
+        Text.create("You Lost",
+             :x => x_offset,
+             :y => 100,
+             :size => 40,
+             :align => :center
+        )
+
+        Text.create("You captured: #{options[:prisoner_count]} villagers!",
+             :x => x_offset,
+             :y => 300,
+             :size => 30,
+             :align => :center
+        )
+
+        Text.create("Press <ESC> to exit",
+             :x => x_offset,
+             :y => 500,
+             :align => :center
+        )
+    end
+
+    def draw
+        super
     end
 end
 
