@@ -8,7 +8,11 @@ are the Villain"
 * Movement: `Arrow Keys`
 * Fire Canon: `space` 
 
-## Run From Source ##
+## Install ##
+
+Windows: [a-game-of-pirates.exe](http://calumgilchrist.co.uk/ludum-dare/a-game-of-pirates.exe)
+
+### Run From Source ###
 
     $ bundle install --without development
     $ ruby pirates.rb
