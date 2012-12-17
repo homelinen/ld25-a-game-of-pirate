@@ -10,7 +10,7 @@ are the Villain"
 
 ## Install ##
 
-Windows: [a-game-of-pirates.exe](http://calumgilchrist.co.uk/ludum-dare/a-game-of-pirates.exe)
+Windows: [a-game-of-pirates.zip](http://calumgilchrist.co.uk/ludum-dare/ld25-a-game-of-pirates.zip) Just run the exe
 
 ### Run From Source ###
 
